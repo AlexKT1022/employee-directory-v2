@@ -40,3 +40,24 @@ export const addEmployee = (req, res, next) => {
 
   res.status(201).send(newEmployee);
 };
+
+// @route PUT /employees/:id
+export const updateEmployee = (req, res, next) => {
+  if (!req.body) res.status(400).send('error: body not provided');
+  if (!req.body.name) res.status(400).send('error: name not provided');
+
+  const id = parseInt(req.params.id);
+  const targetEmployee = employees.find((employee) => employee.id === id);
+
+  targetEmployee.name = req.body.name;
+
+  res.send(targetEmployee);
+};
+
+// @route DELETE /employees/:id
+export const removeEmployee = (req, res, next) => {
+  const id = parseInt(req.params.id);
+  const targetIndex = employees.findIndex((employee) => employee.id === id);
+
+  res.send(employees.splice(targetIndex, 1));
+};
